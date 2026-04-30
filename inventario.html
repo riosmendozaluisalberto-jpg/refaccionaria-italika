@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>Inventario Refacciones</title>
+
+<style>
+.boton-menu {
+  background: #0d47a1;
+  color: white;
+  border: none;
+  padding: 10px 15px;
+  border-radius: 6px;
+  cursor: pointer;
+  margin: 10px;
+}
+
+.boton-menu:hover {
+  background: #1565c0;
+}
+
+html, body {
+  height: 100%;
+  margin: 0;
+  font-family: Arial;
+  background: #f4f8ff;
+}
+
+/* ESTRUCTURA */
+.wrapper {
+  min-height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.contenido {
+  flex: 1;
+}
+
+header {
+  background: #0d47a1;
+  color: white;
+  text-align: center;
+  padding: 15px;
+}
+
+.container {
+  display: flex;
+}
+
+.productos {
+  width: 70%;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 15px;
+  padding: 20px;
+}
+
+.card {
+  background: white;
+  border-radius: 10px;
+  padding: 10px;
+  text-align: center;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+.card img {
+  width: 100%;
+  height: 120px;
+  object-fit: cover;
+  border-radius: 8px;
+}
+
+.card button {
+  background: #0d47a1;
+  color: white;
+  border: none;
+  padding: 8px;
+  margin-top: 5px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.carrito {
+  width: 30%;
+  background: white;
+  padding: 20px;
+}
+
+.item {
+  display: flex;
+  justify-content: space-between;
+}
+
+/* FOOTER */
+footer {
+  background: #0d47a1;
+  color: white;
+  text-align: center;
+  padding: 15px;
+  font-size: 14px;
+}
+
+/* WHATSAPP */
+.whatsapp {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  background: #25D366;
+  color: white;
+  border-radius: 50%;
+  padding: 15px;
+  font-size: 25px;
+  text-decoration: none;
+  box-shadow: 2px 2px 10px rgba(0,0,0,0.3);
+}
+
+.whatsapp:hover {
+  background: #1ebe5d;
+}
+</style>
+</head>
+
+<body>
+
+<div class="wrapper">
+<div class="contenido">
+
+<header>
+<h1>Refacciones para Moto</h1>
+</header>
+
+<div class="container">
+
+<div class="productos" id="productos"></div>
+
+<div class="carrito">
+<h2>Carrito</h2>
+<div id="listaCarrito"></div>
+<p>Total: $<span id="total">0</span></p>
+</div>
+
+</div>
+
+<button class="boton-menu" onclick="window.location.href='menu.html'">
+⬅ Volver al menú
+</button>
+
+</div>
+
+<!-- FOOTER -->
+<footer>
+  © 2026 Refaccionaria Italika <br>
+  Tel: +52 1 220 499 5168<br>
+  Oaxaca, México
+</footer>
+
+</div>
+
+<!-- WHATSAPP -->
+<a href="https://wa.me/5212204995168" class="whatsapp" target="_blank">
+💬
+</a>
+
+<script>
+const productos = [
+{nombre:"Bujía", precio:80, img :"img/bujia.jfif"},
+{nombre:"Filtro de aire", precio:120, img:"img/filtro.jfif"},
+{nombre:"Filtro de aceite", precio:150, img:"img/filtro_aceite.jfif"},
+{nombre:"Pastillas de freno", precio:200, img:"img/freno.jfif"},
+{nombre:"Disco de freno", precio:450, img:"img/disco.jfif"},
+{nombre:"Cadena", precio:300, img:"img/cadena.jfif"},
+{nombre:"Kit de arrastre", precio:900, img:"img/arrastre.jfif"},
+{nombre:"Aceite 4T", precio:180, img:"img/aceite.jfif"},
+{nombre:"Espejos", precio:220, img:"img/espejos.jfif"},
+{nombre:"Manubrio", precio:350, img:"img/manubrio.png"},
+{nombre:"Clutch", precio:400, img:"img/clutch.jfif"},
+{nombre:"Batería", precio:700, img:"img/bateria.jfif"},
+{nombre:"Llantas", precio:1200, img:"img/llanta1.jfif"},
+{nombre:"Cámara", precio:150, img:"img/camara.jfif"},
+{nombre:"Suspensión", precio:1300, img:"img/suspencion.jfif"},
+{nombre:"Amortiguador", precio:800, img:"img/amortiguador.jfif"},
+{nombre:"Radiador", precio:950, img:"img/radiador.jfif"},
+{nombre:"Bomba de gasolina", precio:600, img:"img/bomba.jfif"},
+{nombre:"Inyector", precio:500, img:"img/inyector.jfif"},
+{nombre:"Carburador", precio:750, img:"img/carburador.jfif"},
+{nombre:"Cable acelerador", precio:120, img:"img/acelerador.jfif"},
+{nombre:"Cable clutch", precio:130, img:"img/cable_clutch.jfif"},
+{nombre:"Interruptor", precio:90, img:"img/interruptor.jfif"},
+{nombre:"Faro delantero", precio:300, img:"img/faro.jfif"},
+{nombre:"Calavera", precio:250, img:"img/calabera.jfif"},
+{nombre:"Direccionales", precio:180, img:"img/direcionales.jfif"},
+{nombre:"Portaplacas", precio:140, img:"img/placas.jfif"},
+{nombre:"Soporte celular", precio:200, img:"img/soporte.jfif"},
+{nombre:"Escape", precio:1100, img:"img/escape.jfif"},
+{nombre:"Silenciador", precio:500, img:"img/silenciador.jfif"},
+{nombre:"Pedales", precio:160, img:"img/pedales.jfif"},
+{nombre:"Palanca cambios", precio:220, img:"img/cambios.jfif"},
+{nombre:"Tapa motor", precio:350, img:"img/tapa.jfif"},
+{nombre:"Empaques", precio:100, img:"img/empaques.jfif"},
+{nombre:"Pistón", precio:400, img:"img/piston.jfif"},
+{nombre:"Cilindro", precio:800, img:"img/cilindro.jfif"},
+{nombre:"Balatas", precio:220, img:"img/balatas.jfif"},
+{nombre:"Sensor TPS", precio:450, img:"img/sensor.jfif"},
+{nombre:"Regulador", precio:500, img:"img/regulador.jfif"},
+{nombre:"Bobina", precio:300, img:"img/bobina.jfif"},
+{nombre:"CDI", precio:350, img:"img/cdi.jfif"},
+{nombre:"Relé", precio:120, img:"img/rele.jfif"},
+{nombre:"Fusibles", precio:50, img:"img/fusibles.jfif"},
+{nombre:"Velocímetro", precio:600, img:"img/velocimetro.jfif"},
+{nombre:"Tacómetro", precio:550, img:"img/tacometro.jfif"},
+{nombre:"Luces LED", precio:250, img:"img/led.jfif"},
+{nombre:"Protectores", precio:300, img:"img/proyectores.jfif"},
+{nombre:"Cubierta asiento", precio:200, img:"img/asiento.jfif"},
+{nombre:"Portaequipaje", precio:450, img:"img/equipajes.jfif"},
+{nombre:"Cubrepuños", precio:180, img:"img/punos.jfif"}
+];
+
+let carrito = [];
+let total = 0;
+
+const contenedor = document.getElementById("productos");
+const listaCarrito = document.getElementById("listaCarrito");
+const totalHTML = document.getElementById("total");
+
+productos.forEach((p, i) => {
+  const card = document.createElement("div");
+  card.classList.add("card");
+
+  card.innerHTML = `
+    <img src="${p.img}" alt="imagen">
+    <h3>${p.nombre}</h3>
+    <p>$${p.precio}</p>
+    <button onclick="agregar(${i})">Agregar</button>
+  `;
+
+  contenedor.appendChild(card);
+});
+
+function agregar(i){
+  carrito.push(productos[i]);
+  total += productos[i].precio;
+  actualizar();
+}
+
+function actualizar(){
+  listaCarrito.innerHTML = "";
+  carrito.forEach(p => {
+    listaCarrito.innerHTML += `
+    <div class="item">
+      <span>${p.nombre}</span>
+      <span>$${p.precio}</span>
+    </div>`;
+  });
+  totalHTML.textContent = total;
+}
+</script>
+
+</body>
+</html>

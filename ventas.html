@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>Tienda de Cascos</title>
+
+<style>
+html, body {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    font-family: Arial, sans-serif;
+    background: #f2f2f2;
+}
+
+/* ESTRUCTURA */
+.wrapper {
+    min-height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.contenido {
+    flex: 1;
+}
+
+/* HEADER */
+header {
+    background: #1e4fa3;
+    color: white;
+    padding: 20px;
+    text-align: center;
+    font-size: 28px;
+}
+
+/* CONTENEDOR GENERAL */
+.main {
+    display: flex;
+}
+
+/* PRODUCTOS */
+.productos {
+    width: 75%;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+    padding: 20px;
+}
+
+/* TARJETAS */
+.card {
+    background: white;
+    border-radius: 10px;
+    padding: 15px;
+    text-align: center;
+    box-shadow: 0 3px 8px rgba(0,0,0,0.1);
+}
+
+.card img {
+    width: 100%;
+    height: 150px;
+    object-fit: contain;
+}
+
+.card h3 {
+    margin: 10px 0;
+}
+
+/* BOTÓN */
+.card button {
+    background: #1e4fa3;
+    color: white;
+    border: none;
+    padding: 8px 15px;
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+.card button:hover {
+    background: #163d82;
+}
+
+/* CARRITO */
+#carrito {
+    width: 25%;
+    background: #eaeaea;
+    padding: 20px;
+}
+
+#carrito h2 {
+    margin-top: 0;
+}
+
+.boton-menu {
+    background: #1e4fa3;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 6px;
+    cursor: pointer;
+    margin: 20px;
+}
+
+/* FOOTER */
+footer {
+    background: #1e4fa3;
+    color: white;
+    text-align: center;
+    padding: 15px;
+    font-size: 14px;
+}
+
+/* WHATSAPP */
+.whatsapp {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background: #25D366;
+    color: white;
+    border-radius: 50%;
+    padding: 15px;
+    font-size: 25px;
+    text-decoration: none;
+    box-shadow: 2px 2px 10px rgba(0,0,0,0.3);
+}
+
+.whatsapp:hover {
+    background: #1ebe5d;
+}
+</style>
+</head>
+
+<body>
+
+<div class="wrapper">
+<div class="contenido">
+
+<header>Tienda de Cascos </header>
+
+<div class="main">
+
+    <div class="productos" id="productos"></div>
+
+    <div id="carrito">
+        <h2>Carrito</h2>
+        <ul id="listaCarrito"></ul>
+        <p>Total: $<span id="total">0</span></p>
+    </div>
+
+</div>
+
+<button class="boton-menu" onclick="window.location.href='menu.html'">
+⬅ Volver al menú
+</button>
+
+</div>
+
+<!-- FOOTER -->
+<footer>
+  © 2026 Refaccionaria Italika <br>
+  Tel: +52 1 220 499 5168<br>
+  Oaxaca, México
+</footer>
+
+</div>
+
+<!-- WHATSAPP -->
+<a href="https://wa.me/5212204995168" class="whatsapp" target="_blank">
+💬
+</a>
+
+<script>
+const productos = [
+{nombre:"Cascos Básicos A1", precio:1000, imagen:"img/casco1.jfif"},
+{nombre:"Cascos Económicos B1", precio:1500, imagen:"img/casco2.jfif"},
+{nombre:"Cascos Baratos C1", precio:1200, imagen:"img/casco3.jfif"},
+{nombre:"Cascos Baratos C2", precio:1800, imagen:"img/casco4.jfif"},
+{nombre:"Cascos Gaming Básico", precio:20000, imagen:"img/casco5.jfif"},
+{nombre:"Cascos Deportivos", precio:3000, imagen:"img/caasco6.jfif"},
+{nombre:"Cascos Bass Boost", precio:3500, imagen:"img/casco6.webp"},
+{nombre:"Cascos Bluetooth Lite", precio:4000, imagen:"img/casco8.webp"},
+{nombre:"Cascos Mini Wireless", precio:2200, imagen:"img/casco9.jfif"},
+{nombre:"Cascos Gamer RGB", precio:5000, imagen:"img/casco10.webp"},
+{nombre:"Cascos DJ Starter", precio:6000, imagen:"img/casco11.webp"},
+{nombre:"Cascos Bluetooth Plus", precio:7500, imagen:"img/casco12.webp"},
+{nombre:"Cascos Inalámbricos Pro", precio:8000, imagen:"img/cascos13.webp"},
+{nombre:"Cascos Gamer Elite", precio:9000, imagen:"img/cascos14.webp"},
+{nombre:"Cascos Gamer RGB Pro", precio:1100, imagen:"img/cascos15.webp"},
+{nombre:"Cascos Gaming Pro X", precio:1200, imagen:"img/cascos16.jfif"},
+{nombre:"Cascos Studio Sound", precio:1500, imagen:"img/cascos17.jfif"},
+{nombre:"Cascos Pro Studio X", precio:1800, imagen:"img/cascos18.jfif"},
+{nombre:"Cascos Noise Cancel", precio:2000, imagen:"img/cascos19.jfif"},
+{nombre:"Cascos DJ Pro Max", precio:2200, imagen:"img/cascos20.jfif"},
+{nombre:"Cascos HiFi Audio", precio:2500, imagen:"img/casco21.jfif"},
+{nombre:"Cascos Premium Max", precio:3000, imagen:"img/casco22.jfif"},
+{nombre:"Cascos Ultra Premium", precio:3500, imagen:"img/caaco23.jfif"},
+{nombre:"Cascos Ultra Bass Pro", precio:2800, imagen:"img/cascos24.jfif"},
+{nombre:"Cascos Edición Limitada", precio:4000, imagen:"img/casco25.jfif"}
+];
+
+let carrito = [];
+let total = 0;
+
+const contenedor = document.getElementById("productos");
+
+productos.forEach((producto, index) => {
+    contenedor.innerHTML += `
+        <div class="card">
+            <img src="${producto.imagen}">
+            <h3>${producto.nombre}</h3>
+            <p>$${producto.precio}</p>
+            <button onclick="agregarAlCarrito(${index})">Agregar</button>
+        </div>
+    `;
+});
+
+function agregarAlCarrito(index){
+    carrito.push(productos[index]);
+    total += productos[index].precio;
+    actualizarCarrito();
+}
+
+function actualizarCarrito(){
+    const lista = document.getElementById("listaCarrito");
+    lista.innerHTML = "";
+
+    carrito.forEach(item => {
+        lista.innerHTML += `<li>${item.nombre} - $${item.precio}</li>`;
+    });
+
+    document.getElementById("total").innerText = total;
+}
+</script>
+
+</body>
+</html>

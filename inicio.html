@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Refaccionaria de Motos - Acceso</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, #f07e20, #333);
+            min-height: 100vh;
+            display: flex; justify-content: center; align-items: center; padding: 20px;
+        }
+        .login-container, .admin-container {
+            background: #ffffff; padding: 40px; border-radius: 12px;
+            width: 320px; box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5); text-align: center;
+        }
+        .admin-container { display: none; width: 90%; max-width: 900px; }
+        .logo { font-size: 28px; font-weight: bold; color: #1d5f8b; margin-bottom: 10px; }
+        .input-group { margin-bottom: 15px; text-align: left; }
+        .input-group label { font-size: 14px; color: #444; }
+        .input-group input { width: 100%; padding: 10px; margin-top: 5px; border: 1px solid #ccc; border-radius: 8px; box-sizing: border-box; }
+        .btn { width: 100%; padding: 12px; background: #024e8b; border: none; color: white; font-size: 16px; border-radius: 8px; cursor: pointer; transition: 0.3s; margin-top: 10px; }
+        .btn:hover { background: #bb296d; }
+        .btn-crear { background: #555; }
+        table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+        th, td { border: 1px solid #ddd; padding: 12px; text-align: left; }
+        th { background-color: #f07e20; color: white; }
+    </style>
+</head>
+<body>
+
+    <div class="login-container" id="login-box">
+        <div class="logo">MotoParts</div>
+        <h2 id="titulo-login">Iniciar Sesión</h2>
+        <p id="subtitulo-login">Sistema de refacciones</p>
+
+        <div class="input-group">
+            <label>Correo Electrónico</label>
+            <input type="email" id="user" placeholder="ejemplo@correo.com">
+        </div>
+
+        <div class="input-group">
+            <label>Contraseña</label>
+            <input type="password" id="pass" placeholder="Tu contraseña">
+        </div>
+
+        <button type="button" class="btn" id="btn-principal" onclick="validarAcceso()">Entrar</button>
+        <button type="button" class="btn btn-crear" id="btn-cambio" onclick="registrarUsuario()">Crear Cuenta</button>
+
+        <div class="footer">© 2026 Refaccionaria de Motos</div>
+    </div>
+
+    <!-- PANEL ADMIN (TABLA DE PEDIDOS) -->
+    <div class="admin-container" id="admin-box">
+        <div class="logo">Panel Admin</div>
+        <h2>Pedidos Recibidos</h2>
+        <button class="btn" style="width: auto;" onclick="cargarDatos()">🔄 Actualizar</button>
+        <div style="overflow-x: auto;">
+            <table>
+                <thead>
+                    <tr><th>Fecha</th><th>Cliente</th><th>Pedido</th><th>Pago</th></tr>
+                </thead>
+                <tbody id="cuerpo-tabla"></tbody>
+            </table>
+        </div>
+        <button class="btn" style="background: #333;" onclick="location.reload()">Cerrar Sesión</button>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script>
+        const SUPABASE_URL = 'https://aibmopdmhvpbbjujxuxn.supabase.co';
+        const SUPABASE_KEY = 'sb_publishable_3JlqDLi5gqYsNctMyirpNA_3CrMHTTc'; 
+        const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+        // 1. FUNCIÓN PARA CREAR CUENTA
+        async function registrarUsuario() {
+            const correo = document.getElementById('user').value;
+            const pass = document.getElementById('pass').value;
+
+            if (!correo || !pass) {
+                alert("Por favor llena ambos campos para crear tu cuenta");
+                return;
+            }
+
+            const { error } = await supabaseClient
+                .from('usuarios')
+                .insert([{ correo: correo, password: pass }]);
+
+            if (error) {
+                alert("Error al crear cuenta: " + error.message);
+            } else {
+                alert("¡Cuenta creada con éxito! Ahora ya puedes darle al botón Entrar.");
+            }
+        }
+
+        // 2. FUNCIÓN PARA ENTRAR (ADMIN O CLIENTE)
+        async function validarAcceso() {
+            const u = document.getElementById('user').value;
+            const p = document.getElementById('pass').value;
+
+            // CASO ADMIN
+            if (u === "admin" && p === "italika2026") {
+                document.getElementById('login-box').style.display = 'none';
+                document.getElementById('admin-box').style.display = 'block';
+                cargarDatos();
+                return;
+            }
+
+            // CASO CLIENTE (Busca en la tabla usuarios)
+            const { data, error } = await supabaseClient
+                .from('usuarios')
+                .select('*')
+                .eq('correo', u)
+                .eq('password', p)
+                .single();
+
+            if (data) {
+                window.location.href = 'menu.html';
+            } else {
+                alert("Usuario o contraseña no encontrados. Si no tienes cuenta, dale a 'Crear Cuenta'.");
+            }
+        }
+
+        async function cargarDatos() {
+            const { data } = await supabaseClient.from('contactos').select('*').order('created_at', { ascending: false });
+            const tabla = document.getElementById('cuerpo-tabla');
+            tabla.innerHTML = "";
+            data.forEach(item => {
+                tabla.innerHTML += `<tr><td>${new Date(item.created_at).toLocaleDateString()}</td><td>${item.nombre}</td><td>${item.mensaje}</td><td>${item.metodo_pago}</td></tr>`;
+            });
+        }
+    </script>
+</body>
+</html>

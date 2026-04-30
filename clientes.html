@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>Clientes</title>
+
+<style>
+html, body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  font-family: Arial;
+  background: #f4f8ff;
+}
+
+/* ESTRUCTURA */
+.wrapper {
+  min-height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.contenido {
+  flex: 1;
+}
+
+/* HEADER */
+header {
+  background: #0d47a1;
+  color: white;
+  text-align: center;
+  padding: 15px;
+}
+
+/* BOTÓN MENÚ */
+.boton-menu {
+  background: #0d47a1;
+  color: white;
+  border: none;
+  padding: 10px 15px;
+  border-radius: 6px;
+  cursor: pointer;
+  margin: 10px;
+}
+
+/* GRID */
+.container {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px;
+  padding: 15px;
+}
+
+/* TARJETAS */
+.card {
+  background: white;
+  padding: 10px;
+  border-radius: 8px;
+  text-align: center;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+.card button {
+  background: #0d47a1;
+  color: white;
+  border: none;
+  padding: 5px;
+  margin-top: 5px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+/* MODAL */
+.modal {
+  display: none;
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.5);
+}
+
+.modal-content {
+  background: white;
+  width: 300px;
+  margin: 100px auto;
+  padding: 15px;
+  border-radius: 10px;
+}
+
+/* FOOTER */
+footer {
+  background: #0d47a1;
+  color: white;
+  text-align: center;
+  padding: 15px;
+  font-size: 14px;
+}
+
+/* WHATSAPP */
+.whatsapp {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  background: #25D366;
+  color: white;
+  border-radius: 50%;
+  padding: 15px;
+  font-size: 25px;
+  text-decoration: none;
+  box-shadow: 2px 2px 10px rgba(0,0,0,0.3);
+}
+
+.whatsapp:hover {
+  background: #1ebe5d;
+}
+</style>
+</head>
+
+<body>
+
+<div class="wrapper">
+
+  <div class="contenido">
+
+    <header>
+      <h1>Clientes y Cuentas</h1>
+    </header>
+
+    <button class="boton-menu" onclick="window.location.href='menu.html'">
+      ⬅ Volver al menú
+    </button>
+
+    <div class="container" id="clientes"></div>
+
+  </div>
+
+  <!-- FOOTER -->
+  <footer>
+    © 2026 Refaccionaria Italika <br>
+    Tel: +52 1 220 499 5168 <br>
+    Oaxaca, México
+  </footer>
+
+</div>
+
+<!-- MODAL -->
+<div class="modal" id="modal">
+  <div class="modal-content">
+    <h3 id="nombreCliente"></h3>
+    <div id="detalle"></div>
+    <button onclick="cerrar()">Cerrar</button>
+  </div>
+</div>
+
+<!-- WHATSAPP -->
+<a href="https://wa.me/5212204995168" class="whatsapp" target="_blank">
+  💬
+</a>
+
+<script>
+const clientes = [
+{nombre:"Juan Pérez", compras:[120, 300, 80]},
+{nombre:"María López", compras:[200, 150]},
+{nombre:"Carlos Díaz", compras:[500, 100]},
+{nombre:"Ana García", compras:[90, 200, 300]},
+{nombre:"Luis Hernández", compras:[400]},
+{nombre:"Pedro Sánchez", compras:[120, 220]},
+{nombre:"Sofía Torres", compras:[800, 200]},
+{nombre:"Miguel Ríos", compras:[150, 180]},
+{nombre:"Fernanda Cruz", compras:[300, 400]},
+{nombre:"José Ramírez", compras:[600]},
+{nombre:"Laura Vega", compras:[100, 250]},
+{nombre:"Daniel Ortiz", compras:[700, 300]},
+{nombre:"Paola Flores", compras:[200, 150, 100]},
+{nombre:"Ricardo Luna", compras:[500]},
+{nombre:"Valeria Soto", compras:[90, 110]},
+{nombre:"Jorge Castillo", compras:[350, 450]},
+{nombre:"Camila Reyes", compras:[600, 200]},
+{nombre:"Andrés Mora", compras:[800]},
+{nombre:"Elena Vargas", compras:[120, 130]},
+{nombre:"Hugo Navarro", compras:[300, 300]}
+];
+
+const contenedor = document.getElementById("clientes");
+
+clientes.forEach((c, i) => {
+  let total = c.compras.reduce((a,b)=>a+b,0);
+
+  contenedor.innerHTML += `
+    <div class="card">
+      <h4>${c.nombre}</h4>
+      <p>Total: $${total}</p>
+      <button onclick="ver(${i})">Ver cuenta</button>
+    </div>
+  `;
+});
+
+function ver(i){
+  const cliente = clientes[i];
+  let total = cliente.compras.reduce((a,b)=>a+b,0);
+
+  document.getElementById("nombreCliente").textContent = cliente.nombre;
+
+  document.getElementById("detalle").innerHTML = `
+    <p>Compras:</p>
+    ${cliente.compras.map(c => `<p>$${c}</p>`).join("")}
+    <hr>
+    <b>Total: $${total}</b>
+  `;
+
+  document.getElementById("modal").style.display = "block";
+}
+
+function cerrar(){
+  document.getElementById("modal").style.display = "none";
+}
+</script>
+
+</body>
+</html>
