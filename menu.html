@@ -1,295 +1,139 @@
 <!DOCTYPE html>
-
 <html lang="es">
-
 <head>
-
-<meta charset="UTF-8">
-
-<title>Refaccionaria Italika</title>
-
-
-
-<style>
-
-html, body {
-
-    margin: 0;
-
-    padding: 0;
-
-    height: 100%;
-
-    font-family: Arial, sans-serif;
-
-    background: white;
-
-    text-align: center;
-
-}
-
-
-
-/* CONTENEDOR GENERAL PARA EMPUJAR FOOTER */
-
-.wrapper {
-
-    min-height: 100%;
-
-    display: flex;
-
-    flex-direction: column;
-
-}
-
-
-
-/* CONTENIDO */
-
-.contenido {
-
-    flex: 1;
-
-}
-
-
-
-/* HEADER */
-
-header {
-
-    background: #5c5bc5;
-
-    padding: 80px;
-
-    font-size: 30px;
-
-    color: white;
-
-    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
-
-}
-
-
-
-/* MOTO */
-
-.moto {
-
-    margin-top: -40px;
-
-}
-
-
-
-.moto img {
-
-    width: 550px;
-
-}
-
-
-
-/* CONTENEDOR IMAGEN */
-
-.contenedor {
-
-    width: 300px;
-
-    margin: 0 auto;
-
-}
-
-
-
-.imagen-pequena {
-
-    width: 100%;
-
-    display: block;
-
-}
-
-
-
-/* BOTONES */
-
-.btn {
-
-    display: block;
-
-    width: 200px;
-
-    margin: 15px auto;
-
-    padding: 15px;
-
-    background: #2b2b2b;
-
-    color: white;
-
-    border-radius: 10px;
-
-    text-decoration: none;
-
-}
-
-
-
-.btn:hover {
-
-    background: #444;
-
-}
-
-
-
-/* FOOTER */
-
-footer {
-
-    background: #5c5bc5;
-
-    color: white;
-
-    padding: 20px;
-
-    font-size: 14px;
-
-}
-
-
-
-/* WHATSAPP */
-
-.whatsapp {
-
-    position: fixed;
-
-    bottom: 20px;
-
-    right: 20px;
-
-    background: #25D366;
-
-    color: white;
-
-    border-radius: 50%;
-
-    padding: 15px;
-
-    font-size: 25px;
-
-    text-decoration: none;
-
-    box-shadow: 2px 2px 10px rgba(0,0,0,0.3);
-
-}
-
-
-
-.whatsapp:hover {
-
-    background: #1ebe5d;
-
-}
-
-</style>
-
-
-
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Italika Refaccionaria</title>
+
+    <style>
+        html, body {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            font-family: Arial, sans-serif;
+            background: white;
+            text-align: center;
+        }
+
+        .wrapper {
+            min-height: 100%;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .contenido {
+            flex: 1;
+        }
+
+        header {
+            background: #5c5bc5;
+            padding: 40px 20px; /* Ajustado para que no sea tan alto en el cel */
+            font-size: 28px;
+            color: white;
+            font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+            font-weight: bold;
+        }
+
+        .moto {
+            margin-top: 10px;
+        }
+
+        .moto img {
+            width: 90%; /* Ajustado para que quepa bien en la pantalla */
+            max-width: 550px;
+            height: auto;
+        }
+
+        .contenedor {
+            width: 80%;
+            max-width: 300px;
+            margin: 20px auto;
+        }
+
+        .imagen-pequena {
+            width: 100%;
+            display: block;
+            border-radius: 10px;
+        }
+
+        /* BOTONES MÁS GRANDES PARA EL DEDO */
+        .btn {
+            display: block;
+            width: 85%;
+            max-width: 280px;
+            margin: 12px auto;
+            padding: 15px;
+            background: #2b2b2b;
+            color: white;
+            border-radius: 12px;
+            text-decoration: none;
+            font-size: 16px;
+            font-weight: bold;
+        }
+
+        .btn:hover {
+            background: #444;
+        }
+
+        footer {
+            background: #5c5bc5;
+            color: white;
+            padding: 20px;
+            font-size: 14px;
+            margin-top: 20px;
+        }
+
+        .whatsapp {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: #25D366;
+            color: white;
+            border-radius: 50%;
+            padding: 15px;
+            font-size: 25px;
+            text-decoration: none;
+            box-shadow: 2px 2px 10px rgba(0,0,0,0.3);
+            z-index: 100;
+        }
+    </style>
 </head>
-
-
 
 <body>
 
-
-
 <div class="wrapper">
-
-
-
     <div class="contenido">
-
-
-
         <header>
-
-            Refaccionaria de Motos 
-
+            Italika Refaccionaria
         </header>
 
-
-
         <div class="moto">
-
-            <img src="img/moto.png" alt="moto">
-
+            <img src="moto.png" alt="moto">
         </div>
-
-
 
         <div class="contenedor">
-
-            <img src="img/italika.jfif" class="imagen-pequena">
-
+            <img src="italika.jfif" class="imagen-pequena">
         </div>
 
-
-
         <a href="inventario.html" class="btn"> INVENTARIO 📋</a>
-
-        <a href="ventas.html" class="btn"> CASCOS🏍️</a>
-
-        <a href="clientes.html" class="btn"> CLIENTES🧑🏻‍💼</a>
-
-        <a href="llantas.html" class="btn"> LLANTAS🎡</a>
-
+        <a href="ventas.html" class="btn"> CASCOS 🏍️</a>
+        <a href="clientes.html" class="btn"> CLIENTES 🧑🏻‍💼</a>
+        <a href="llantas.html" class="btn"> LLANTAS 🎡</a>
         <a href="contactanos.html" class="btn"> CONTACTANOS 📟</a>
-
         <a href="dondeestamos.html" class="btn"> DONDE NOS UBICAMOS 📌</a>
-
-
-
-        <!-- ➕ NUEVO BOTÓN -->
-
         <a href="horario.html" class="btn"> HORARIO ⏰</a>
-
-
-
     </div>
 
-
-
-    <!-- FOOTER -->
-
     <footer>
-
-        © 2026 Refaccionaria Italika <br>
-
+        © 2026 Italika Refaccionaria <br>
         Tel: +52 1 220 499 5168<br>
-
         Oaxaca, México
-
     </footer>
-
-
-
 </div>
 
-
-
-<!-- BOTÓN WHATSAPP -->
-
 <a href="https://wa.me/5212204995168" class="whatsapp" target="_blank">
-
     💬
-
 </a>
 
-
-
 </body>
-
-</html> 
+</html>
