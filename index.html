@@ -2,20 +2,28 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>Refaccionaria de Motos - Acceso</title>
-    <style>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MotoParts - Acceso</title>
+    
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="MotoParts">
+    <link rel="apple-touch-icon" href="logo.png"> <style>
         body {
             margin: 0;
             font-family: Arial, sans-serif;
+            /* Si tienes una imagen de fondo en la raíz, cambia el gradient por: 
+               background: url('fondo.jpg') no-repeat center center fixed; */
             background: linear-gradient(135deg, #f07e20, #333);
             min-height: 100vh;
             display: flex; justify-content: center; align-items: center; padding: 20px;
         }
         .login-container, .admin-container {
-            background: #ffffff; padding: 40px; border-radius: 12px;
+            background: rgba(255, 255, 255, 0.95); padding: 40px; border-radius: 12px;
             width: 320px; box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5); text-align: center;
         }
         .admin-container { display: none; width: 90%; max-width: 900px; }
+        .logo-img { width: 120px; margin-bottom: 10px; } /* Para usar imagen en lugar de texto */
         .logo { font-size: 28px; font-weight: bold; color: #1d5f8b; margin-bottom: 10px; }
         .input-group { margin-bottom: 15px; text-align: left; }
         .input-group label { font-size: 14px; color: #444; }
@@ -26,11 +34,13 @@
         table { width: 100%; border-collapse: collapse; margin-top: 20px; }
         th, td { border: 1px solid #ddd; padding: 12px; text-align: left; }
         th { background-color: #f07e20; color: white; }
+        .footer { margin-top: 20px; font-size: 12px; color: #666; }
     </style>
 </head>
 <body>
 
     <div class="login-container" id="login-box">
+        <img src="logo.png" alt="MotoParts" class="logo-img" onerror="this.style.display='none'">
         <div class="logo">MotoParts</div>
         <h2 id="titulo-login">Iniciar Sesión</h2>
         <p id="subtitulo-login">Sistema de refacciones</p>
@@ -51,7 +61,6 @@
         <div class="footer">© 2026 Refaccionaria de Motos</div>
     </div>
 
-    <!-- PANEL ADMIN (TABLA DE PEDIDOS) -->
     <div class="admin-container" id="admin-box">
         <div class="logo">Panel Admin</div>
         <h2>Pedidos Recibidos</h2>
@@ -73,33 +82,20 @@
         const SUPABASE_KEY = 'sb_publishable_3JlqDLi5gqYsNctMyirpNA_3CrMHTTc'; 
         const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
-        // 1. FUNCIÓN PARA CREAR CUENTA
         async function registrarUsuario() {
             const correo = document.getElementById('user').value;
             const pass = document.getElementById('pass').value;
+            if (!correo || !pass) { alert("Llena ambos campos"); return; }
 
-            if (!correo || !pass) {
-                alert("Por favor llena ambos campos para crear tu cuenta");
-                return;
-            }
-
-            const { error } = await supabaseClient
-                .from('usuarios')
-                .insert([{ correo: correo, password: pass }]);
-
-            if (error) {
-                alert("Error al crear cuenta: " + error.message);
-            } else {
-                alert("¡Cuenta creada con éxito! Ahora ya puedes darle al botón Entrar.");
-            }
+            const { error } = await supabaseClient.from('usuarios').insert([{ correo: correo, password: pass }]);
+            if (error) { alert("Error: " + error.message); } 
+            else { alert("¡Cuenta creada! Ya puedes Entrar."); }
         }
 
-        // 2. FUNCIÓN PARA ENTRAR (ADMIN O CLIENTE)
         async function validarAcceso() {
             const u = document.getElementById('user').value;
             const p = document.getElementById('pass').value;
 
-            // CASO ADMIN
             if (u === "admin" && p === "italika2026") {
                 document.getElementById('login-box').style.display = 'none';
                 document.getElementById('admin-box').style.display = 'block';
@@ -107,7 +103,6 @@
                 return;
             }
 
-            // CASO CLIENTE (Busca en la tabla usuarios)
             const { data, error } = await supabaseClient
                 .from('usuarios')
                 .select('*')
@@ -116,9 +111,10 @@
                 .single();
 
             if (data) {
+                // IMPORTANTE: Asegúrate que tu otro archivo también se llame menu.html y esté en la raíz
                 window.location.href = 'menu.html';
             } else {
-                alert("Usuario o contraseña no encontrados. Si no tienes cuenta, dale a 'Crear Cuenta'.");
+                alert("Datos incorrectos.");
             }
         }
 
