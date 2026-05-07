@@ -4,104 +4,46 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Italika Refaccionaria - Acceso</title>
-    
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <meta name="apple-mobile-web-app-title" content="Italika">
-
     <style>
         body {
             margin: 0;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #f07e20, #222);
+            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, #f07e20, #333);
             min-height: 100vh;
-            display: flex; 
-            justify-content: center; 
-            align-items: center; 
-            padding: 15px;
+            display: flex; justify-content: center; align-items: center; padding: 20px;
             box-sizing: border-box;
         }
-        .login-container {
-            background: #ffffff; 
-            padding: 30px; 
-            border-radius: 20px;
-            /* Cuadro más grande y adaptable */
+        .login-container, .admin-container {
+            background: #ffffff; padding: 40px; border-radius: 12px;
+            /* Cuadro más grande para que no se vea chiquito */
             width: 100%;
-            max-width: 400px; 
-            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4); 
-            text-align: center;
-        }
-        .admin-container { 
-            display: none; 
-            background: #fff; 
-            padding: 20px; 
-            border-radius: 15px; 
-            width: 100%; 
-            max-width: 1000px; 
-        }
-        .logo-img { 
-            width: 150px; 
-            margin-bottom: 15px; 
-        }
-        .logo { 
-            font-size: 32px; 
-            font-weight: 900; 
-            color: #024e8b; 
-            margin-bottom: 5px;
-            text-transform: uppercase;
-        }
-        h2 { font-size: 22px; color: #333; margin-bottom: 20px; }
-        
-        .input-group { margin-bottom: 20px; text-align: left; }
-        .input-group label { 
-            font-size: 16px; 
-            font-weight: bold; 
-            color: #555; 
-            display: block; 
-            margin-bottom: 8px; 
-        }
-        /* Inputs más grandes para que sea fácil tocar con el dedo */
-        .input-group input { 
-            width: 100%; 
-            padding: 15px; 
-            font-size: 16px;
-            border: 2px solid #eee; 
-            border-radius: 12px; 
+            max-width: 380px; 
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5); text-align: center;
             box-sizing: border-box;
-            outline: none;
-            transition: 0.3s;
         }
-        .input-group input:focus { border-color: #f07e20; }
-
-        .btn { 
-            width: 100%; 
-            padding: 16px; 
-            background: #024e8b; 
-            border: none; 
-            color: white; 
-            font-size: 18px; 
-            font-weight: bold;
-            border-radius: 12px; 
-            cursor: pointer; 
-            transition: 0.3s; 
-            margin-top: 10px; 
-        }
-        .btn:active { transform: scale(0.98); }
-        .btn-crear { background: #555; margin-top: 15px; }
-        
-        table { width: 100%; border-collapse: collapse; margin-top: 20px; font-size: 14px; }
+        .admin-container { display: none; width: 95%; max-width: 900px; }
+        .logo { font-size: 30px; font-weight: bold; color: #1d5f8b; margin-bottom: 10px; text-transform: uppercase; }
+        .input-group { margin-bottom: 15px; text-align: left; }
+        .input-group label { font-size: 16px; color: #444; font-weight: bold; }
+        /* Inputs más grandes para tocar fácil con el dedo */
+        .input-group input { width: 100%; padding: 15px; margin-top: 5px; border: 1px solid #ccc; border-radius: 8px; box-sizing: border-box; font-size: 16px; }
+        .btn { width: 100%; padding: 15px; background: #024e8b; border: none; color: white; font-size: 18px; border-radius: 8px; cursor: pointer; transition: 0.3s; margin-top: 10px; font-weight: bold; }
+        .btn:hover { background: #bb296d; }
+        .btn-crear { background: #555; }
+        table { width: 100%; border-collapse: collapse; margin-top: 20px; }
         th, td { border: 1px solid #ddd; padding: 12px; text-align: left; }
         th { background-color: #f07e20; color: white; }
-        .footer { margin-top: 25px; font-size: 14px; color: #888; }
+        .footer { margin-top: 20px; font-size: 14px; color: #666; }
     </style>
 </head>
 <body>
 
     <div class="login-container" id="login-box">
-        <img src="logo.png" alt="Italika" class="logo-img" onerror="this.style.display='none'">
+        <img src="logo.png" style="width:140px; margin-bottom:10px;" onerror="this.style.display='none'">
         <div class="logo">Italika</div>
-        <h2 style="margin-top:0; color:#444;">Refaccionaria</h2>
-        
+        <h2 id="titulo-login" style="margin:0; font-size:20px;">Refaccionaria</h2>
+        <p id="subtitulo-login">Sistema de acceso</p>
+
         <div class="input-group">
             <label>Correo Electrónico</label>
             <input type="email" id="user" placeholder="ejemplo@correo.com">
@@ -109,16 +51,81 @@
 
         <div class="input-group">
             <label>Contraseña</label>
-            <input type="password" id="pass" placeholder="••••••••">
+            <input type="password" id="pass" placeholder="Tu contraseña">
         </div>
 
-        <button type="button" class="btn" onclick="validarAcceso()">Entrar al Sistema</button>
-        <button type="button" class="btn btn-crear" onclick="registrarUsuario()">Crear Cuenta Nueva</button>
+        <button type="button" class="btn" id="btn-principal" onclick="validarAcceso()">Entrar</button>
+        <button type="button" class="btn btn-crear" id="btn-cambio" onclick="registrarUsuario()">Crear Cuenta</button>
 
         <div class="footer">© 2026 Italika Refaccionaria</div>
     </div>
 
     <div class="admin-container" id="admin-box">
-        <div class="logo">Panel de Control</div>
+        <div class="logo">Panel Admin</div>
         <h2>Pedidos Recibidos</h2>
-        <button class="btn" style="width: auto; padding: 10px 20px;" onclick="cargarDatos()">
+        <button class="btn" style="width: auto;" onclick="cargarDatos()">🔄 Actualizar</button>
+        <div style="overflow-x: auto;">
+            <table>
+                <thead>
+                    <tr><th>Fecha</th><th>Cliente</th><th>Pedido</th><th>Pago</th></tr>
+                </thead>
+                <tbody id="cuerpo-tabla"></tbody>
+            </table>
+        </div>
+        <button class="btn" style="background: #333;" onclick="location.reload()">Cerrar Sesión</button>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script>
+        // ESTOS DATOS NO SE TOCARON PARA QUE NO FALLE TU CONEXIÓN
+        const SUPABASE_URL = 'https://aibmopdmhvpbbjujxuxn.supabase.co';
+        const SUPABASE_KEY = 'sb_publishable_3JlqDLi5gqYsNctMyirpNA_3CrMHTTc'; 
+        const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+        async function registrarUsuario() {
+            const correo = document.getElementById('user').value;
+            const pass = document.getElementById('pass').value;
+            if (!correo || !pass) { alert("Llena ambos campos"); return; }
+
+            const { error } = await supabaseClient.from('usuarios').insert([{ correo: correo, password: pass }]);
+            if (error) { alert("Error: " + error.message); } 
+            else { alert("¡Cuenta creada! Ya puedes Entrar."); }
+        }
+
+        async function validarAcceso() {
+            const u = document.getElementById('user').value;
+            const p = document.getElementById('pass').value;
+
+            if (u === "admin" && p === "italika2026") {
+                document.getElementById('login-box').style.display = 'none';
+                document.getElementById('admin-box').style.display = 'block';
+                cargarDatos();
+                return;
+            }
+
+            const { data, error } = await supabaseClient
+                .from('usuarios')
+                .select('*')
+                .eq('correo', u)
+                .eq('password', p)
+                .single();
+
+            if (data) {
+                // Se queda igual buscando menu.html en la raíz
+                window.location.href = 'menu.html';
+            } else {
+                alert("Usuario o contraseña no encontrados.");
+            }
+        }
+
+        async function cargarDatos() {
+            const { data } = await supabaseClient.from('contactos').select('*').order('created_at', { ascending: false });
+            const tabla = document.getElementById('cuerpo-tabla');
+            tabla.innerHTML = "";
+            data.forEach(item => {
+                tabla.innerHTML += `<tr><td>${new Date(item.created_at).toLocaleDateString()}</td><td>${item.nombre}</td><td>${item.mensaje}</td><td>${item.metodo_pago}</td></tr>`;
+            });
+        }
+    </script>
+</body>
+</html>
